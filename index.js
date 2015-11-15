@@ -1,10 +1,12 @@
 var twit = require('twit');
 var twitter = new twit({
-    consumer_key:         'consumer_key',
-    consumer_secret:      'consumer_secret',
-    access_token:         'access_token',
-    access_token_secret:  'access_token_secret',
+  consumer_key:         '---------'
+, consumer_secret:      '--------'
+, access_token:         '-----------'
+, access_token_secret:  '------------'
 });
+// bot's hand
+var self = '-------';
 
 var express = require('express');
 var app = express();
@@ -23,6 +25,17 @@ stream.on('follow', function (eventMsg) {
   twitter.post('statuses/update', { status: '@' +eventMsg.source.screen_name + ' Hello, World!' }, function(err, data, response) {
     console.log(data)
   })
+});
+
+stream.on('tweet', function (eventMsg) {
+  console.log(eventMsg);
+  if(!eventMsg.source.screen_name != self){
+    console.log(eventMsg.source.screen_name != self);
+      twitter.post('statuses/update', { status: '@' +eventMsg.source.screen_name + ' Hello, World!' }, function(err, data, response) {
+      console.log(data)
+    });
+
+  }
 });
 
 app.listen(app.get('port'), function() {
